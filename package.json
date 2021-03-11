@@ -6,6 +6,7 @@
   "scripts": {
     "start": "node ./dist/main.js",
     "dev": "node -r ./node_modules/ts-node/register -r ./node_modules/tsconfig-paths/register ./src/main.ts",
+    "mock": "node -r ./node_modules/ts-node/register -r ./node_modules/tsconfig-paths/register ./src/infrastructure/mock",
     "build": "npm run build:types && npm run build:js && cp \"package.json\" \"dist/\"",
     "build:types": "tsc --emitDeclarationOnly",
     "build:js": "babel src --extensions \".js,.ts\" --out-dir dist --copy-files --no-copy-ignored --source-maps inline",

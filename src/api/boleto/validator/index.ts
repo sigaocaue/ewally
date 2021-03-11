@@ -63,7 +63,7 @@ const boletoBancario = (cod: string): boolean => {
   return modulo11Bancario(bloco) === Number(DV)
 }
 
-const modulo10 = (bloco: string): number => {
+export const modulo10 = (bloco: string): number => {
   const digits = bloco.split('').reverse()
   const summation = digits.reduce((acc, current, index) => {
     let sum = Number(current) * (((index + 1) % 2) + 1)
@@ -96,7 +96,7 @@ const modulo11Arrecadacao = (bloco: string): number => {
   return 11 - modulus
 }
 
-const modulo11Bancario = (bloco: string): number => {
+export const modulo11Bancario = (bloco: string): number => {
   const digits = bloco.split('').reverse()
   let multiplier = 2
 
