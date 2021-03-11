@@ -1,4 +1,5 @@
 import { Request, Response, NextFunction } from 'express'
+import { CustomValidator } from 'express-validator'
 import boom from '@hapi/boom'
 
 export const justNumbers = async (
@@ -41,6 +42,21 @@ export const boleto = async (
   }
 
   return next()
+}
+
+export const justNumbersValidator: CustomValidator = (value) =>
+  /^[0-9]*$/.test(String(value))
+
+export const boletoValidator: CustomValidator = (barCode: string) => {
+  let barCodeValidation: boolean
+
+  if (Number(barCode[0]) === 8) {
+    barCodeValidation = boletoArrecadacao(barCode)
+  } else {
+    barCodeValidation = boletoBancario(barCode)
+  }
+
+  return barCodeValidation
 }
 
 const boletoArrecadacao = (cod: string): boolean => {
