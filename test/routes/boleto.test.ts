@@ -3,7 +3,7 @@ import Server from '@infrastructure/server'
 import db from '@infrastructure/database'
 import { Boleto } from '@infrastructure/database'
 
-describe('Rota de Boletos', async () => {
+describe('Rota de Boletos', () => {
   const barCode = '00193373700000001000500940144816060680935031'
   db.get('boletos').remove({ barCode }).write()
 
