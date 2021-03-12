@@ -3,7 +3,6 @@ import * as path from 'path'
 import * as glob from 'glob'
 import winston from 'winston'
 
-export const caue = new Map() as Map<string, string>
 export interface RouteInterface {
   path: string
   register(server: Application): Promise<void>

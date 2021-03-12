@@ -3,15 +3,14 @@ import bodyParser from 'body-parser'
 import morgan from 'morgan'
 import cors from 'cors'
 import Http from 'http'
-import winston from 'winston'
-
+import logger from '@infrastructure/logger'
 import router from '@infrastructure/router'
 
 export default class Server {
   private static _instance: Http.Server
   private static appEnv = process.env.NODE_ENV || 'dev'
 
-  public static async start(): Promise<Http.Server> {
+  public static async start(): Promise<express.Express> {
     try {
       const app = express()
       app.use(cors())
@@ -21,13 +20,16 @@ export default class Server {
       app.use(bodyParser.json())
 
       await router.loadRoutes(app)
-      app.listen(this.serverPort())
+      app.get('/', (req, res) => res.status(200).send())
 
-      this._instance = Http.createServer(express)
+      // app.listen(this.serverPort())
 
-      return this._instance
+      // this._instance = Http.createServer(express)
+
+      // return this._instance
+      return app
     } catch (error) {
-      winston.loggers.get('default').error(error.message, error)
+      logger.error(error.message, error)
       process.exit()
     }
   }
@@ -36,5 +38,10 @@ export default class Server {
     return Number.isNaN(Number(process.env.NODE_PORT))
       ? 3500
       : Number(process.env.NODE_PORT)
+  }
+
+  public static close(callback?: () => void): void {
+    logger.info('chamou o close')
+    this._instance.close(callback)
   }
 }

@@ -32,9 +32,19 @@ export default class Controller {
   ): Promise<Response | void> => {
     const boleto = request.body
 
-    const body = db.get('boletos').push(boleto).write()
+    const exists = db
+      .get('boletos')
+      .find({
+        barCode: boleto.barCode,
+      })
+      .value()
 
-    response.status(201).json(body)
+    if (exists) {
+      return response.status(402).json('Boleto já cadastrado')
+    }
+
+    db.get('boletos').push(boleto).write()
+    response.status(201).json(boleto)
   }
 
   public update = async (
